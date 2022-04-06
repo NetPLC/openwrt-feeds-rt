@@ -1,0 +1,33 @@
+Index: preempt-test-1.0/Makefile
+===================================================================
+--- preempt-test-1.0.orig/Makefile
++++ preempt-test-1.0/Makefile
+@@ -2,11 +2,14 @@
+ CFLAGS += -g -O0
+ ARCH=$(shell uname -m)
+ OBJDIR ?= obj/$(ARCH)
+-LIBRARIES+=-lboost_thread-mt
++LIBRARIES+=-lboost_thread
+ LIBRARIES+=-lboost_program_options
+-PREFIX ?= /usr/local
++LIBRARIES+=-lboost_system
++LIBRARIES+=-lpthread
++DESTDIR	?=
++prefix ?= /usr/local
+ NAME=preempt-test
+-INSTPATH=$(PREFIX)/bin
++INSTPATH=$(prefix)/bin
+ 
+ VERSION=1.0
+ RELEASE=1
+@@ -38,8 +41,8 @@ clean:
+ 	@rm -f $(OBJDIR)/*
+ 
+ install: $(OUTPUT)
+-	@mkdir -p $(INSTPATH)
+-	cp -d $(OUTPUT) $(INSTPATH)
++	@mkdir -p "$(DESTDIR)$(INSTPATH)"
++	cp -d $(OUTPUT) "$(DESTDIR)$(INSTPATH)"
+ 
+ $(OBJDIR)/$(NAME)-$(VERSION):
+ 	@mkdir -p $(OBJDIR)/$(NAME)-$(VERSION)
